@@ -25,7 +25,11 @@ export function SiteHeader() {
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <img src="/favicon.png" alt="Digi Turtles logo" className="h-10 w-auto" />
+          <img
+            src="/favicon.png"
+            alt="Digi Turtles logo"
+            className="h-10 w-10 shrink-0 object-contain"
+          />
           <span className="leading-tight">
             <span className="block font-display text-lg font-bold tracking-wide text-ink">
               DIGI TURTLES

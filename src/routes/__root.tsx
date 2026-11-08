@@ -14,6 +14,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { ScrollProgress } from "@/components/site/ScrollProgress";
+import { PageLoader } from "@/components/site/PageLoader";
 
 function NotFoundComponent() {
   return (
@@ -133,6 +135,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <ScrollProgress />
+      <PageLoader />
       <SiteHeader />
       <main className="min-h-screen overflow-x-hidden">
         <Outlet />

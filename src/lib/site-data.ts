@@ -251,3 +251,99 @@ export const posts = [
     ],
   },
 ];
+
+// Replace these styled wordmarks with real client logo paths from src/assets/brands/ when available.
+export const clientBrands = [
+  { name: "NEXORA", logoPath: null },
+  { name: "Urban Nest", logoPath: null },
+  { name: "Kite & Co.", logoPath: null },
+  { name: "VELORA", logoPath: null },
+  { name: "Northstar", logoPath: null },
+  { name: "Olive Studio", logoPath: null },
+  { name: "Peakline", logoPath: null },
+  { name: "Mosaic", logoPath: null },
+] as const;
+
+// Placeholder reviews — replace with approved, real client reviews before launch.
+export const testimonials = [
+  {
+    quote:
+      "Digi Turtles turned a scattered marketing effort into a clear lead-generation system our team can actually run.",
+    name: "Areeba Shah",
+    role: "Co-founder, Northstar Clinics",
+    rating: 5,
+  },
+  {
+    quote:
+      "The team understood our brand quickly, then gave us a visual system that made every campaign feel connected.",
+    name: "Hamza Malik",
+    role: "Director, Urban Nest",
+    rating: 5,
+  },
+  {
+    quote:
+      "Our AI assistant now handles routine questions around the clock, while our people focus on real conversations.",
+    name: "Sana Rehman",
+    role: "Operations Lead, Kite & Co.",
+    rating: 5,
+  },
+  {
+    quote:
+      "The SEO roadmap was practical, clearly explained and built around the searches our customers were already making.",
+    name: "Fahad Ali",
+    role: "Founder, Peakline Commerce",
+    rating: 5,
+  },
+  {
+    quote:
+      "We appreciated the balance of strategy and execution. Every deliverable had a purpose and a next step.",
+    name: "Maha Khan",
+    role: "Marketing Manager, Velora",
+    rating: 5,
+  },
+  {
+    quote:
+      "The training gave our in-house team the confidence to create better content and keep improving after the workshop.",
+    name: "Usman Ahmed",
+    role: "People Lead, Mosaic Group",
+    rating: 5,
+  },
+] as const;
+
+export const faqs = [
+  {
+    question: "Which services can Digi Turtles help my business with?",
+    answer:
+      "We support lead generation, digital marketing, AI automation, SEO, brand building and practical team training. We shape the scope around the growth goal that matters most to you.",
+  },
+  {
+    question: "How do you price a project?",
+    answer:
+      "After a short discovery conversation, we recommend a clear scope, timeline and investment. Pricing depends on the work required, the channels involved and the level of ongoing support.",
+  },
+  {
+    question: "How long does a typical project take?",
+    answer:
+      "A focused campaign or automation can start within a few weeks, while a complete brand or growth system may take longer. We agree milestones and delivery dates before work begins.",
+  },
+  {
+    question: "Are revisions included?",
+    answer:
+      "Yes. Each project includes review points so we can refine the work against the agreed direction. The exact revision rounds are stated clearly in your proposal.",
+  },
+  {
+    question: "Do you provide support after launch?",
+    answer:
+      "Yes. We can stay involved through an ongoing growth plan, maintenance support or team handover so your systems and campaigns keep moving after launch.",
+  },
+  {
+    question: "Can you train our internal team?",
+    answer:
+      "Yes. Our Institute runs practical workshops and tailored learning paths for teams that want to build skills in AI, marketing, design, SEO and content production.",
+  },
+  {
+    question: "How do we get started?",
+    answer:
+      "Send us a message through the contact page with your goals. We will schedule a discovery conversation and recommend the most useful first step.",
+  },
+] as const;

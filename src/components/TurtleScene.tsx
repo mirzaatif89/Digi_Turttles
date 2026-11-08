@@ -1,18 +1,23 @@
 import { Suspense, useEffect, useMemo, useRef } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 const TEAL = "#25C8D1";
 const CYAN = "#83E6E6";
-const EMBLEM_CENTER_X = 0.45;
-const EMBLEM_CENTER_Y = -0.65;
+const EMBLEM_CENTER_Y = -0.38;
 
 function Emblem() {
   const tex = useLoader(THREE.TextureLoader, "/hover_logo.png");
   tex.colorSpace = THREE.SRGBColorSpace;
   const group = useRef<THREE.Group>(null);
+  const { viewport } = useThree();
   const aspect = 1;
   const layers = 5;
+  // Tablet hero copy needs more room than the desktop split layout. Keep a
+  // smaller mark anchored inside the right edge there, then grow it on wide screens.
+  const compactCanvas = viewport.width < 6;
+  const scale = compactCanvas ? 2.5 : Math.min(5.2, Math.max(4.5, viewport.width * 0.6));
+  const centerX = compactCanvas ? viewport.width * 0.24 : 0.3;
 
   useFrame((state, delta) => {
     const g = group.current;
@@ -26,7 +31,7 @@ function Emblem() {
   });
 
   return (
-    <group ref={group} position={[EMBLEM_CENTER_X, EMBLEM_CENTER_Y, 0]} scale={4.5}>
+    <group ref={group} position={[centerX, EMBLEM_CENTER_Y, 0]} scale={scale}>
       {Array.from({ length: layers }).map((_, i) => {
         const front = i === layers - 1;
         return (
@@ -127,9 +132,9 @@ function Ready({ onReady }: { onReady: () => void }) {
 export default function TurtleScene() {
   const wrap = useRef<HTMLDivElement>(null);
   return (
-    <div ref={wrap} className="absolute inset-0">
+    <div ref={wrap} className="absolute inset-0 overflow-visible">
       <Canvas
-        camera={{ position: [0, 0, 7], fov: 45 }}
+        camera={{ position: [0, 0, 9], fov: 50 }}
         dpr={[1, 1.25]}
         performance={{ min: 0.6 }}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}

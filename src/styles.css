@@ -166,15 +166,93 @@
     linear-gradient(90deg, oklch(0.68 0.12 200 / 8%) 1px, transparent 1px);
   background-size: 56px 56px;
 }
-@utility reveal {
+.reveal {
   opacity: 0;
   transform: translateY(28px);
   transition:
     opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
-  &[data-shown="true"] {
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform, filter;
+}
+.reveal[data-variant="fade-left"] {
+  transform: translateX(-28px);
+}
+.reveal[data-variant="fade-right"] {
+  transform: translateX(28px);
+}
+.reveal[data-variant="zoom-in"] {
+  transform: scale(0.94);
+}
+.reveal[data-variant="blur-in"] {
+  filter: blur(10px);
+  transform: translateY(16px);
+}
+.reveal[data-shown="true"] {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  will-change: auto;
+}
+
+.brand-marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.brand-marquee-track {
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+.brand-marquee-mask:hover .brand-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes page-loader-line {
+  0% {
+    transform: translateX(-110%);
+  }
+  55%,
+  100% {
+    transform: translateX(110%);
+  }
+}
+@keyframes page-loader-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
     opacity: 1;
+    transform: scale(1);
+  }
+}
+.page-loader {
+  animation: page-loader-enter 0.18s ease-out;
+}
+.page-loader-line {
+  animation: page-loader-line 1s ease-in-out infinite;
+  width: 55%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal[data-variant] {
+    opacity: 1;
+    filter: none;
     transform: none;
+    transition: none;
+  }
+  .brand-marquee-track,
+  .page-loader-line,
+  .animate-float,
+  .animate-marquee,
+  .animate-spin-slow {
+    animation: none !important;
   }
 }
 @utility card-lift {

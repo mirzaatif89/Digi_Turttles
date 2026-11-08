@@ -12,8 +12,25 @@ import {
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHead } from "@/components/site/PageHero";
 import { TeamCard } from "@/components/site/TeamCard";
+import { CountUp } from "@/components/site/CountUp";
+import { TestimonialsCarousel } from "@/components/site/TestimonialsCarousel";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { serviceIcons } from "@/components/site/icons";
-import { courses, services, projects, team, posts, images } from "@/lib/site-data";
+import {
+  clientBrands,
+  courses,
+  faqs,
+  images,
+  posts,
+  projects,
+  services,
+  team,
+} from "@/lib/site-data";
 
 const TurtleScene = lazy(() => import("@/components/TurtleScene"));
 
@@ -47,6 +64,16 @@ const philosophy = [
   { icon: HeartHandshake, t: "Help Others Grow", d: "Skilled turtles lift the next." },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
+};
+
 type TurtleSceneBoundaryProps = { children: ReactNode };
 type TurtleSceneBoundaryState = { hasError: boolean };
 
@@ -73,7 +100,7 @@ function Index() {
 
   useEffect(() => {
     const canRenderScene = window.matchMedia(
-      "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+      "(min-width: 700px) and (prefers-reduced-motion: no-preference)",
     ).matches;
     if (!canRenderScene) return;
 
@@ -86,7 +113,7 @@ function Index() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-hero-light">
+      <section className="relative flex min-h-[100svh] items-center overflow-x-clip bg-hero-light">
         <div className="absolute right-[4%] top-1/2 hidden h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-accent/60 blur-3xl md:block" />
         <div className="absolute right-[10%] top-1/2 hidden h-[28rem] w-[28rem] -translate-y-1/2 animate-spin-slow rounded-full border border-dashed border-primary/30 md:block" />
         <div className="absolute inset-0 md:left-[38%]">
@@ -131,29 +158,31 @@ function Index() {
               Digital skills + the turtle mindset. Practical education for learners and real growth
               for businesses — under one roof.
             </p>
-            <div className="pointer-events-auto mt-8 flex flex-wrap gap-3">
+            <div className="pointer-events-auto mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-105"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-teal px-7 py-3.5 font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-105"
               >
                 Explore Services <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/contact"
-                className="rounded-full border-2 border-ink px-7 py-3 font-semibold text-ink transition-colors hover:bg-ink hover:text-ink-foreground"
+                className="inline-flex items-center justify-center rounded-full border-2 border-ink px-7 py-3 font-semibold text-ink transition-colors hover:bg-ink hover:text-ink-foreground"
               >
                 Contact Us
               </Link>
             </div>
-            <div className="mt-12 flex gap-10 border-t border-border pt-6">
+            <div className="mt-12 grid grid-cols-3 gap-3 border-t border-border pt-6 sm:gap-8">
               {[
                 ["8", "Courses"],
                 ["5+", "Agency services"],
                 ["1", "Growth ecosystem"],
               ].map(([n, l]) => (
-                <div key={l}>
-                  <p className="font-display text-3xl font-bold text-teal">{n}</p>
-                  <p className="text-sm text-muted-foreground">{l}</p>
+                <div key={l} className="min-w-0">
+                  <p className="font-display text-3xl font-bold text-teal">
+                    <CountUp value={n} />
+                  </p>
+                  <p className="text-xs text-muted-foreground sm:text-sm">{l}</p>
                 </div>
               ))}
             </div>
@@ -177,7 +206,7 @@ function Index() {
 
       {/* About split */}
       <section className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-24 md:grid-cols-2">
-        <Reveal>
+        <Reveal variant="fade-left">
           <div className="relative">
             <img
               src={images.classroom}
@@ -193,7 +222,7 @@ function Index() {
             </div>
           </div>
         </Reveal>
-        <Reveal delay={150}>
+        <Reveal delay={150} variant="fade-right">
           <SectionHead
             k="Who we are"
             title="Not the fastest. The one that keeps moving."
@@ -211,12 +240,14 @@ function Index() {
       {/* Services */}
       <section className="bg-muted py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <SectionHead k="Agency services" title="Your growth partner, not a vendor" center />
+          <Reveal variant="blur-in">
+            <SectionHead k="Agency services" title="Your growth partner, not a vendor" center />
+          </Reveal>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => {
               const Icon = serviceIcons[i]!;
               return (
-                <Reveal key={s.t} delay={i * 80}>
+                <Reveal key={s.t} delay={i * 80} variant={i % 2 === 0 ? "fade-up" : "zoom-in"}>
                   <div className="card-lift group h-full rounded-3xl border border-border bg-card p-8">
                     <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-primary transition-all duration-300 group-hover:rotate-6 group-hover:bg-teal group-hover:text-primary-foreground">
                       <Icon className="h-6 w-6" />
@@ -234,14 +265,16 @@ function Index() {
       {/* Philosophy dark band */}
       <section className="relative overflow-hidden bg-ink py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <SectionHead
-            k="The turtle philosophy"
-            title="Don't just learn. Become independent."
-            dark
-          />
+          <Reveal variant="fade-left">
+            <SectionHead
+              k="The turtle philosophy"
+              title="Don't just learn. Become independent."
+              dark
+            />
+          </Reveal>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {philosophy.map((p, i) => (
-              <Reveal key={p.t} delay={i * 100}>
+              <Reveal key={p.t} delay={i * 100} variant="zoom-in">
                 <div className="h-full rounded-2xl border border-ink-muted/20 p-6 transition-colors hover:border-primary">
                   <p.icon className="mb-4 h-7 w-7 text-primary-glow" />
                   <h3 className="font-semibold text-ink-foreground">{p.t}</h3>
@@ -256,7 +289,9 @@ function Index() {
       {/* Portfolio preview */}
       <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <SectionHead k="Portfolio" title="Recent work" />
+          <Reveal variant="fade-left">
+            <SectionHead k="Portfolio" title="Recent work" />
+          </Reveal>
           <Link
             to="/portfolio"
             className="mb-12 inline-flex items-center gap-2 font-semibold text-primary"
@@ -266,7 +301,7 @@ function Index() {
         </div>
         <div className="grid gap-6 md:grid-cols-3">
           {projects.slice(0, 3).map((p, i) => (
-            <Reveal key={p.t} delay={i * 120}>
+            <Reveal key={p.t} delay={i * 120} variant="zoom-in">
               <div className="group relative overflow-hidden rounded-3xl">
                 <img
                   src={p.img}
@@ -294,10 +329,12 @@ function Index() {
       {/* Team preview */}
       <section className="bg-muted py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <SectionHead k="Our team" title="Meet the turtles" center />
+          <Reveal variant="blur-in">
+            <SectionHead k="Our team" title="Meet the turtles" center />
+          </Reveal>
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             {team.slice(0, 4).map((m, i) => (
-              <Reveal key={m.name} delay={i * 100}>
+              <Reveal key={m.name} delay={i * 100} variant="fade-up">
                 <TeamCard m={m} />
               </Reveal>
             ))}
@@ -315,10 +352,12 @@ function Index() {
 
       {/* Blog preview */}
       <section className="mx-auto max-w-7xl px-6 py-24">
-        <SectionHead k="From the blog" title="Ideas that help you grow" />
+        <Reveal variant="fade-left">
+          <SectionHead k="From the blog" title="Ideas that help you grow" />
+        </Reveal>
         <div className="grid gap-8 md:grid-cols-3">
           {posts.slice(0, 3).map((p, i) => (
-            <Reveal key={p.slug} delay={i * 120}>
+            <Reveal key={p.slug} delay={i * 120} variant="zoom-in">
               <Link to="/blog/$slug" params={{ slug: p.slug }} className="group block">
                 <div className="overflow-hidden rounded-2xl">
                   <img
@@ -343,7 +382,7 @@ function Index() {
 
       {/* CTA */}
       <section className="px-6 pb-24">
-        <Reveal>
+        <Reveal variant="zoom-in">
           <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-teal px-8 py-16 text-center shadow-glow md:py-20">
             <h2 className="text-3xl font-bold text-primary-foreground md:text-5xl">
               Your journey starts here.
@@ -360,6 +399,109 @@ function Index() {
           </div>
         </Reveal>
       </section>
+
+      {/* Brands */}
+      <section className="overflow-x-clip bg-muted py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <Reveal variant="blur-in">
+            <SectionHead
+              k="Trusted partnerships"
+              title="Brands we've worked with"
+              sub="Helping teams turn ideas into systems, campaigns and growth."
+              center
+            />
+          </Reveal>
+        </div>
+        <Reveal delay={100} variant="fade-up">
+          <div
+            className="brand-marquee-mask overflow-hidden"
+            aria-label="Brands we have worked with"
+          >
+            <div className="brand-marquee-track flex gap-5 px-5">
+              {[...clientBrands, ...clientBrands].map((brand, index) => (
+                <div
+                  key={`${brand.name}-${index}`}
+                  className="flex h-24 min-w-52 items-center justify-center rounded-2xl border border-border bg-card px-7 font-display text-lg font-bold tracking-[0.08em] text-muted-foreground grayscale transition-all duration-300 hover:border-primary hover:text-primary hover:grayscale-0"
+                >
+                  {brand.logoPath ? (
+                    <img
+                      src={brand.logoPath}
+                      alt={brand.name}
+                      className="max-h-10 max-w-36 object-contain"
+                      loading="lazy"
+                    />
+                  ) : (
+                    brand.name
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* Testimonials */}
+      <section className="mx-auto max-w-7xl px-6 py-24">
+        <Reveal variant="fade-left">
+          <SectionHead
+            k="Client reviews"
+            title="Work that keeps people moving"
+            sub="A few words about the systems, campaigns and learning experiences we create together."
+            center
+          />
+        </Reveal>
+        <Reveal delay={100} variant="fade-up">
+          <TestimonialsCarousel />
+        </Reveal>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-muted py-24">
+        <div className="mx-auto max-w-3xl px-6">
+          <Reveal variant="blur-in">
+            <SectionHead
+              k="FAQ"
+              title="Questions before your first step?"
+              sub="Here are the answers to the things clients and learners ask us most often."
+              center
+            />
+          </Reveal>
+          <Reveal delay={100} variant="fade-up">
+            <Accordion
+              type="single"
+              collapsible
+              className="rounded-3xl border border-border bg-card px-6 shadow-soft"
+            >
+              {faqs.map((faq, index) => (
+                <AccordionItem key={faq.question} value={`faq-${index}`}>
+                  <AccordionTrigger className="py-5 text-base text-ink hover:no-underline">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="pr-8 text-muted-foreground">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Reveal>
+          <Reveal delay={180} variant="zoom-in">
+            <div className="mt-10 text-center">
+              <p className="text-muted-foreground">Still have questions?</p>
+              <Link
+                to="/contact"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3 font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-105"
+              >
+                Contact us <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
     </>
   );
 }

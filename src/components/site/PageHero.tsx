@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Reveal } from "@/components/site/Reveal";
 
 export function PageHero({
   kicker,
@@ -20,18 +21,16 @@ export function PageHero({
         className="pointer-events-none absolute right-8 top-1/2 hidden h-72 w-auto -translate-y-1/2 animate-float opacity-[0.08] md:block lg:right-14 lg:h-[22rem]"
       />
       <div className="relative mx-auto max-w-7xl px-6">
-        <p className="animate-in fade-in slide-in-from-bottom-3 mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-primary duration-700">
-          {kicker}
-        </p>
-        <h1 className="animate-in fade-in slide-in-from-bottom-4 max-w-3xl text-4xl font-extrabold leading-tight text-ink duration-700 md:text-6xl">
-          {title}
-        </h1>
-        {sub && (
-          <p className="animate-in fade-in slide-in-from-bottom-5 mt-5 max-w-2xl text-lg text-muted-foreground duration-1000">
-            {sub}
+        <Reveal variant="fade-left">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
+            {kicker}
           </p>
-        )}
-        {children}
+          <h1 className="max-w-3xl text-4xl font-extrabold leading-tight text-ink md:text-6xl">
+            {title}
+          </h1>
+          {sub && <p className="mt-5 max-w-2xl text-lg text-muted-foreground">{sub}</p>}
+          {children}
+        </Reveal>
       </div>
     </section>
   );
